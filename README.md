@@ -68,3 +68,10 @@ ShouldBroadcast se utiliza para eventos pesados como mejorar el rendimiento en p
 componente?
 
 La vista de gráficos no requirió cambios en el servidor porque el backend continuó enviando los mismos eventos y datos. La diferencia estuvo únicamente en la presentación dentro del navegador.La ventaja de esto fue el permitir encapsular la lógica del gráfico, facilitando la reutilización, el mantenimiento y la modificación de la interfaz sin afectar al código del servidor.
+
+
+Captura 1
+![Captura 1](screenshots/Captura de pantalla 2026-11-06 064737.png)
+
+Captura 2
+![Captura 2](screenshots/Captura de pantalla 2026-11-06 065344.png)
