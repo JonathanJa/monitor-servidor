@@ -1,58 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+¿Por qué la temperatura suele aparecer como “No disponibleˮ en Windows? Prueben abrir la terminal
+como administrador y comparen.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Porque windows restringe de forma nativa el acceso directo a los sensores de hardware al menos que se ejecuten como administrador.
 
-## About Laravel
+¿Por qué el script de PowerShell nunca debe incluir datos que vengan del usuario?
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+porque pueden tener un riesgo critico de seguridad como la inyección de comandos.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+¿Qué riesgo tiene dejar 
+/api/metrics
+ sin autenticación en un servidor real?
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Es muy riesgoso, como exponer informacion importante del ordenador y otras informaciones como la infraestructura.
 
-## Learning Laravel
+Con polling cada 5 segundos, ¿cuántos pedidos por minuto recibe el servidor si hay 50 personas
+mirando?
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+recibe una aproximacion de 10 pedidos por segundo.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Si una app solo necesita la temperatura, ¿qué datos recibe de más al llamar a 
+Criterios de evaluación
+Criterio
+/api/metrics 
+?
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Los datos que recibe de más son 
+"hostname": "Jonathan",
+  "os": "Windows NT 10.0",
+  "php": "8.5.11",
+  "disk": {
+    "total_gb": 285,
+    "free_gb": 195.7,
+    "used_pct": 31.3
+  },
+  "memory": {
+    "total_mb": 40590,
+    "available_mb": 29308,
+    "used_pct": 27.8
+  },
+  "cpu_pct": 32,
+  "uptime_s": 6168,
 
-## Agentic Development
+trabajo practico 2
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+¿Qué diferencia ven en la pestaña Red entre el TP 1 (polling) y este TP?
 
-```bash
-composer require laravel/boost --dev
+La diferencia princial probiene de que el polling realiza multiples peticiones en segundos y en este trabajo se obserban como va mostrando el rendimiento en tiempo real.
 
-php artisan boost:install
-```
+¿Qué pasa con la vista si detienen reverb:start ? ¿Y si detienen schedule:work ?
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Al detener reverb:start deja de mandar a la vista actualizaciones en tiempo real y tambien si se detiene schedule:work se pierde los datos y queda frizzado en el lugar en donde quedo actualizado.
 
-## Contributing
+¿Por qué PowerShell se ejecuta la misma cantidad de veces con 1 o con 30 personas mirando?
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+powershell no se ejecuta por cada usuario al interactuar con webshocket si no con cada persona que lo este mirando por pantalla, esto sucede porque reverb envia resultados a todos los clientes conectados.
 
-## Code of Conduct
+¿Por qué DemoController usa una lista blanca en lugar de recibir el nombre del programa desde el
+navegador?
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Al utilizar DemoController en blanco, lo estamos haciendo en forma segura para evitar riesgo de inyeccionnes o el acceso de herramientas utiles de windows.
 
-## Security Vulnerabilities
+¿Qué diferencia hay entre ShouldBroadcast y ShouldBroadcastNow ?
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+ShouldBroadcast se utiliza para eventos pesados como mejorar el rendimiento en produccion a diferencia de ShouldBroadcastNow es utilizado para pruebas como eventos chicos, demos etc.
 
-## License
+¿Por qué la vista de gráficos no necesitó ningún cambio en el servidor? ¿Qué ventaja tiene haber usado un
+componente?
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+La vista de gráficos no requirió cambios en el servidor porque el backend continuó enviando los mismos eventos y datos. La diferencia estuvo únicamente en la presentación dentro del navegador.La ventaja de esto fue el permitir encapsular la lógica del gráfico, facilitando la reutilización, el mantenimiento y la modificación de la interfaz sin afectar al código del servidor.

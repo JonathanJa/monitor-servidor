@@ -48,10 +48,12 @@ class ServerMetrics
             return null;
         }
          $script = <<<'PS'
+            $ProgressPreference = 'SilentlyContinue'
             $os  = Get-CimInstance Win32_OperatingSystem
             $cpu = (Get-CimInstance Win32_Processor |
                 Measure-Object -Property LoadPercentage -Average).Average
             $temp = $null
+            # Fuente 1: requiere permisos de administrador
             try {
                 $ns  = 'root/wmi'
                 $cls = 'MSAcpi_ThermalZoneTemperature'
@@ -59,6 +61,20 @@ class ServerMetrics
                     Select-Object -First 1
                 if ($t) { $temp = [math]::Round($t.CurrentTemperature / 10 - 273.15, 1) }
             } catch {}
+            # Fuente 2: contador de zonas térmicas, funciona sin administrador
+            if ($null -eq $temp) {
+                try {
+                    $hottest = Get-CimInstance -ClassName Win32_PerfFormattedData_Counters_ThermalZoneInformation -ErrorAction Stop |
+                        Where-Object { $_.HighPrecisionTemperature -gt 0 } |
+                        Sort-Object HighPrecisionTemperature -Descending |
+                        Select-Object -First 1
+                    if ($hottest) {
+                        $temp = [math]::Round($hottest.HighPrecisionTemperature / 10 - 273.15, 1)
+                    }
+                } catch {}
+            }
+            # Descartar lecturas fuera de un rango razonable
+            if ($null -ne $temp -and ($temp -lt -20 -or $temp -gt 150)) { $temp = $null }
             [pscustomobject]@{
                 mem_total_kb = [int64]$os.TotalVisibleMemorySize
                 mem_free_kb  = [int64]$os.FreePhysicalMemory
