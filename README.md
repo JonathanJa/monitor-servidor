@@ -1,3 +1,15 @@
+# Monitor de servidor en tiempo real
+
+Aplicación Laravel que muestra las métricas del servidor (CPU, memoria, disco y temperatura) en tiempo real mediante WebSocket con Laravel Reverb, además de gráficos con Chart.js.
+
+## Capturas
+
+| Monitor del servidor | Gráficos en tiempo real |
+| --- | --- |
+| ![Monitor del servidor](screenshots/monitor-servidor.png) | ![Gráficos en tiempo real](screenshots/graficos-tiempo-real.png) |
+
+## Preguntas del trabajo práctico
+
 ¿Por qué la temperatura suele aparecer como “No disponibleˮ en Windows? Prueben abrir la terminal
 como administrador y comparen.
 
@@ -41,7 +53,7 @@ Los datos que recibe de más son
   "cpu_pct": 32,
   "uptime_s": 6168,
 
-trabajo practico 2
+## Trabajo práctico 2
 
 ¿Qué diferencia ven en la pestaña Red entre el TP 1 (polling) y este TP?
 
@@ -68,10 +80,3 @@ ShouldBroadcast se utiliza para eventos pesados como mejorar el rendimiento en p
 componente?
 
 La vista de gráficos no requirió cambios en el servidor porque el backend continuó enviando los mismos eventos y datos. La diferencia estuvo únicamente en la presentación dentro del navegador.La ventaja de esto fue el permitir encapsular la lógica del gráfico, facilitando la reutilización, el mantenimiento y la modificación de la interfaz sin afectar al código del servidor.
-
-
-Captura 1
-![Captura 1](screenshots/Captura de pantalla 2026-11-06 064737.png)
-
-Captura 2
-![Captura 2](screenshots/Captura de pantalla 2026-11-06 065344.png)
